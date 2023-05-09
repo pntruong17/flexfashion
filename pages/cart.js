@@ -4,11 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCart } from "react-use-cart";
 import { loadStripe } from "@stripe/stripe-js";
-import {
-  getCategories,
-  getAllProducts,
-  convertTitleToSlug,
-} from "@/utils/callback";
+import { getCategories, getAllProducts } from "@/utils/callback";
 import Button from "@/components/ui/button";
 import {
   ChevronDownSmallIcon,

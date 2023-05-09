@@ -1,9 +1,7 @@
-import { useState } from "react";
 import ProductGrid from "@/components/product-grid";
 import Hero from "@/components/hero";
 import Subscribe from "@/components/subscribe";
 import { getAllProducts } from "@/utils/callback";
-import Image from "next/image";
 
 function IndexPage({ products }) {
   return (
@@ -15,15 +13,6 @@ function IndexPage({ products }) {
     </>
   );
 }
-
-// export async function getStaticProps({ locale }) {
-//   const pageData = await getPageData({ locale });
-//   const { products } = await getAllProducts({ locale });
-
-//   return {
-//     props: { ...pageData, products },
-//   };
-// }
 
 export async function getStaticProps() {
   const res = await fetch("https://fakestoreapi.com/products/categories");

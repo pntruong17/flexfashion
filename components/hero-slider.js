@@ -65,7 +65,6 @@ const HeroSlider = ({ products }) => {
             <div className="w-full sm:w-[600px] h-auto sm:h-full px-5 py-10 flex flex-col justify-between">
               <div>
                 <h3 className="font-Baskerville font-light text-4xl my-3">
-                  {" "}
                   {products[count].title}
                 </h3>
 

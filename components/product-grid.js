@@ -1,6 +1,5 @@
 import ProductCard from "@/components/product-card";
 import { useEffect, useState } from "react";
-import { convertTitleToSlug } from "@/utils/callback";
 import { useLikeContext } from "@/context/like-context";
 
 function ProductGrid({ products, header }) {

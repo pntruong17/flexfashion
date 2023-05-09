@@ -6,8 +6,8 @@
 
 @font-face {
   font-family: "Baskerville";
-  src: url("/fonts/baskerville.woff2") format("woff2"),
-    url("/fonts/baskerville.woff") format("woff");
+  src: url("/fonts/baskerville.woff2") format("woff2");
+  src: url("/fonts/baskerville.woff") format("woff");
 }
 @layer components {
   .font-flexrow {

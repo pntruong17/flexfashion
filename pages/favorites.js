@@ -3,7 +3,6 @@ import { getAllProducts, getCategories } from "@/utils/callback";
 import { getCookies } from "@/utils/cookie";
 import SEO from "@/components/seo";
 import ProductGrid from "@/components/product-grid";
-import { useLikeContext } from "@/context/like-context";
 
 const Favorites = ({ products }) => {
   const cookies = getCookies() || [];

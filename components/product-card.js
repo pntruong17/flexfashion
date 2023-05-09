@@ -20,7 +20,6 @@ function ProductCard({ id, image, title, price, rating, liked }) {
                 fill
                 src={`${image}`}
                 alt={title}
-                title={title}
                 className="object-contain"
               />
             ) : null}

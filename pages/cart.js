@@ -16,7 +16,6 @@ import {
   XSmallIcon,
 } from "@/components/icons";
 import SEO from "@/components/seo";
-import { useSettingsContext } from "@/context/settings";
 import useSubmissionState from "hooks/use-form-submission";
 
 const stripePromise = loadStripe(
@@ -27,7 +26,6 @@ function Cart() {
   const { cartTotal, isEmpty, items, removeItem, updateItemQuantity } =
     useCart();
   const router = useRouter();
-  const { activeCurrency } = useSettingsContext();
   const {
     setSubmissionError,
     setSubmissionLoading,

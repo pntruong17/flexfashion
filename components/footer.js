@@ -1,10 +1,7 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
-
 import { FacebookIcon, InstaIcon } from "@/icons";
 import { Select } from "@/ui/form";
-import { currencies, locales } from "hygraph.config";
-import { useSettingsContext } from "@/context/settings";
 
 const footerMenu = [
   {
@@ -32,10 +29,6 @@ const footerMenu = [
 
 function Footer({ categories = [], collections = [] }) {
   const router = useRouter();
-  const { activeCurrency, switchCurrency } = useSettingsContext();
-
-  const activeLocale = locales.find((locale) => locale.value === router.locale);
-
   const updateCurrency = (event) => {
     const currency = currencies.find(
       (currency) => currency.code === event.target.value
@@ -59,15 +52,15 @@ function Footer({ categories = [], collections = [] }) {
       </h2>
       <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:py-16 lg:px-8">
         <div className="pb-8 grid sm:grid-cols-2 md:grid-cols-4 gap-10">
-          {footerMenu.map((menu) => (
-            <div key={menu}>
+          {footerMenu.map((menu, index) => (
+            <div key={index}>
               <h3 className="font-bold font-Outfit uppercase text-sm">
                 {menu.item}
               </h3>
               <ul className="mt-6">
-                {menu.list.map((menuItem) => (
+                {menu.list.map((menuItem, subIndex) => (
                   <li
-                    key={menuItem}
+                    key={`${index}-${subIndex}`}
                     className="font-medium font-Montserrat mt-5 text-sm cursor-pointer hover:underline"
                   >
                     {menuItem}

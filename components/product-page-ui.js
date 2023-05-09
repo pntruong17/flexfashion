@@ -4,13 +4,9 @@ import Image from "next/image";
 import { useCart } from "react-use-cart";
 import Link from "next/link";
 import { ChevronDownSmallIcon } from "@/icons";
-import { formatCurrencyValue } from "@/utils/format-currency-value";
 import ProductReviews from "@/components/product-reviews";
-import { useSettingsContext } from "@/context/settings";
-import { convertTitleToSlug } from "@/utils/callback";
 
 function ProductPageUI({ product, linkImg }) {
-  console.log(linkImg);
   const { addItem } = useCart();
   const router = useRouter();
   const [variantQuantity, setVariantQuantity] = React.useState(1);
@@ -43,16 +39,17 @@ function ProductPageUI({ product, linkImg }) {
           <span className="cursor-pointer">{product.title}</span>
         </h3>
         <div className="w-full h-[600px] overflow-hidden relative bg-gainsboro rounded-[50px]">
-          <Image
-            fill
-            key={product.id}
-            src={linkImg[0]}
-            //height={primaryImage.height}
-            //width={primaryImage.width}
-            alt={product.name}
-            title={product.name}
-            className="object-contain"
-          />
+          {linkImg ? (
+            <Image
+              fill
+              key={product.id}
+              src={linkImg[0]}
+              //height={primaryImage.height}
+              //width={primaryImage.width}
+              alt={"Picture of product"}
+              className="object-contain"
+            />
+          ) : null}
         </div>
       </div>
       <div className="px-6 md:py-3 md:w-1/2">

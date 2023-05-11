@@ -1,7 +1,7 @@
 import ProductGrid from "@/components/product-grid";
 import Hero from "@/components/hero";
 import Subscribe from "@/components/subscribe";
-import { getAllProducts } from "@/utils/callback";
+import { getAllProducts, getCategories, getTop6 } from "@/utils/callback";
 
 function IndexPage({ products }) {
   return (
@@ -14,17 +14,15 @@ function IndexPage({ products }) {
   );
 }
 
-export async function getStaticProps() {
-  const res = await fetch("https://fakestoreapi.com/products/categories");
-  const prod = await fetch("https://fakestoreapi.com/products?limit=6");
+export const getStaticProps = async () => {
   const allProducts = await getAllProducts();
-  const categories = await res.json();
-  const products = await prod.json();
+  const top6 = await getTop6();
+  const categories = await getCategories();
   const pageProps = {
     categories: categories,
-    products: products,
+    products: top6,
     allproducts: allProducts,
   };
   return { props: { ...pageProps } };
-}
+};
 export default IndexPage;

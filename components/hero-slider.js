@@ -46,6 +46,7 @@ const HeroSlider = ({ products }) => {
         <AnimatePresence custom={{ direction, width }}>
           <motion.div
             key={count}
+            s
             variants={variants}
             initial="enter"
             animate="center"

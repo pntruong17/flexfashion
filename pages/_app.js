@@ -1,17 +1,17 @@
-import { CartProvider } from "react-use-cart";
+import Layout from "@/components/layout";
+import { LikeContextProvider } from "@/context/like-context";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
-import { LikeContextProvider } from "@/context/like-context";
-import Layout from "@/components/layout";
+import { CartContextProvider } from "@/context/cart-context";
 
 function App({ Component, pageProps }) {
   return (
     <LikeContextProvider>
-      <CartProvider>
+      <CartContextProvider>
         <Layout {...pageProps}>
           <Component {...pageProps} />
         </Layout>
-      </CartProvider>
+      </CartContextProvider>
     </LikeContextProvider>
   );
 }

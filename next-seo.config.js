@@ -1,5 +1,5 @@
 const description =
-  "Build modern website, SEO ready commerce storefronts with Hygraph, Next.js, Stripe, and Vercel.";
+  "Build modern website, SEO ready commerce storefronts, Next.js, Stripe, and Vercel.";
 const title = "Build Modern Commerce Experiences with a Headless CMS";
 const url = "https://flexrow.com";
 

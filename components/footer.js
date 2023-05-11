@@ -3,31 +3,34 @@ import Link from "next/link";
 import { FacebookIcon, InstaIcon } from "@/icons";
 import { Select } from "@/ui/form";
 
-const footerMenu = [
-  {
-    item: "Company",
-    list: ["About us", "Press", "Trade", "Careers"],
-  },
-  {
-    item: "Company",
-    list: ["Brands", "Collections", "Lookbooks", "Price Promise"],
-  },
-  {
-    item: "Delivery",
-    list: [
-      "Global Events Impact",
-      "Delivery Information",
-      "Refunds & Returns",
-      "Furniture Delivery Guide",
-    ],
-  },
-  {
-    item: "Contact us",
-    list: ["Call + 44 123 456 789", "Email Customer Care", "Visit Help Center"],
-  },
-];
-
 function Footer({ categories = [], collections = [] }) {
+  const footerMenu = [
+    {
+      item: "Company",
+      list: ["About us", "Press", "Trade", "Careers"],
+    },
+    {
+      item: "Company",
+      list: ["Brands", "Collections", "Lookbooks", "Price Promise"],
+    },
+    {
+      item: "Delivery",
+      list: [
+        "Global Events Impact",
+        "Delivery Information",
+        "Refunds & Returns",
+        "Furniture Delivery Guide",
+      ],
+    },
+    {
+      item: "Contact us",
+      list: [
+        "Call + 44 123 456 789",
+        "Email Customer Care",
+        "Visit Help Center",
+      ],
+    },
+  ];
   const router = useRouter();
   const updateCurrency = (event) => {
     const currency = currencies.find(
@@ -70,7 +73,7 @@ function Footer({ categories = [], collections = [] }) {
             </div>
           ))}
         </div>
-        <div className="mt-8 font-Outfit border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between">
+        <div className="mt-8 font-Outfit border-t border-gray-200 pt-8 flex flex-col md:flex-row items-center md:justify-between">
           <div className="flex space-x-6 md:order-2">
             <Link
               href="https://www.facebook.com/flexrowdev"

@@ -1,6 +1,6 @@
-import Link from "next/link";
+"use client";
 import { useEffect, useState } from "react";
-import { useCart } from "react-use-cart";
+import Link from "next/link";
 import { convertTitleToSlug, removeSpaces } from "@/utils/callback";
 import {
   HeartIcon,
@@ -10,11 +10,12 @@ import {
   XSmallIcon,
 } from "@/icons";
 import { useLikeContext } from "@/context/like-context";
+import { useCartContext } from "@/context/cart-context";
 import Image from "next/image";
 
 function Header({ categories, allproducts }) {
-  const { cartTotal, totalItems } = useCart();
   const { likes } = useLikeContext();
+  const { totalItems } = useCartContext();
   const [query, setQuery] = useState("");
   const [searchList, setSearchList] = useState(allproducts);
   const [openMenu, setOpenMenu] = useState(false);
@@ -23,12 +24,9 @@ function Header({ categories, allproducts }) {
 
   const handleFocus = () => {
     setIsFocused(true);
-    // Thực hiện hành động khác tại đây
   };
   const handleSearch = (e) => {
     e.preventDefault();
-    //console.log(`Search for: ${query}`);
-    // Do something with the search query
   };
 
   const handleInputChange = (e) => {
@@ -40,13 +38,11 @@ function Header({ categories, allproducts }) {
     );
     setSearchList(productInSearch);
   };
-  useEffect(() => {
-    //console.log("like cóntext", likes);
-  }, [likes]);
+
   return (
-    <header className="sm:mx-10 flex-grow flex items-center justify-between px-4 sm:px-6">
+    <header className="mx-2 sm:mx-10 flex-grow flex items-center justify-between">
       <div className="py-6 w-full">
-        <nav className="flex items-center justify-between flex-col lg:flex-row space-x-4 relative">
+        <nav className="flex items-center justify-between flex-col lg:flex-row relative">
           <div className="flex justify-between items-center w-full lg:w-auto">
             <div className="block lg:hidden w-24">
               <MenuIcon openMenu={openMenu} setOpenMenu={setOpenMenu} />
@@ -56,7 +52,7 @@ function Header({ categories, allproducts }) {
                 flexfashion
               </h3>
             </Link>
-            <div className="flex lg:hidden w-24">
+            <div className="flex lg:hidden w-24 justify-end">
               <Link href="/favorites" className="space-x-2 ml-1  relative">
                 <HeartIcon aria-hidden="true" />
                 {likes.length > 0 && (
@@ -158,7 +154,7 @@ function Header({ categories, allproducts }) {
                 <div className="absolute w-10 h-10 top-2 right-2">
                   <XSmallIcon onClick={() => setIsFocused(false)} />
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8 sm:px-10 gap-2 md:gap-8">
+                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 sm:px-10 gap-2 md:gap-8">
                   {searchList.map((product) => (
                     <Link
                       href={`/product/${convertTitleToSlug(product.title)}`}
@@ -174,10 +170,10 @@ function Header({ categories, allproducts }) {
                           className="object-contain"
                         />
                       </div>
-                      <h3 className="font-Outfit text-lg font-light uppercase">
+                      <h3 className="font-Outfit text-sm lg:text-md font-light uppercase">
                         {product.category}
                       </h3>
-                      <h3 className="font-Outfit font-semibold text-md">
+                      <h3 className="font-Outfit font-semibold text-md truncate">
                         {product.title}
                       </h3>
                       <h3 className="font-Outfit text-md">${product.price}</h3>

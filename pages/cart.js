@@ -2,25 +2,29 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCart } from "react-use-cart";
 import { loadStripe } from "@stripe/stripe-js";
 import { getCategories, getAllProducts } from "@/utils/callback";
 import Button from "@/components/ui/button";
-import {
-  ChevronDownSmallIcon,
-  ChevronUpSmallIcon,
-  XSmallIcon,
-} from "@/components/icons";
+import { ChevronDownSmallIcon, ChevronUpSmallIcon } from "@/components/icons";
 import SEO from "@/components/seo";
 import useSubmissionState from "hooks/use-form-submission";
-
+import { useCartContext } from "@/context/cart-context";
+import axios from "axios";
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
-
+const activeCurrency = "USD";
 function Cart() {
-  const { cartTotal, isEmpty, items, removeItem, updateItemQuantity } =
-    useCart();
+  const {
+    items,
+    totalItems,
+    totalCost,
+    deliveryCost,
+    isEmpty,
+    addItem,
+    removeItem,
+    clearItem,
+  } = useCartContext();
   const router = useRouter();
   const {
     setSubmissionError,
@@ -30,11 +34,14 @@ function Cart() {
     submissionState,
   } = useSubmissionState();
 
-  const decrementItemQuantity = (item) =>
-    updateItemQuantity(item.id, item.quantity - 1);
+  const decrementItemQuantity = (item) => {
+    removeItem(item.productId);
+  };
 
-  const incrementItemQuantity = (item) =>
-    updateItemQuantity(item.id, item.quantity + 1);
+  const incrementItemQuantity = (item) => {
+    const newItem = { ...item, quantity: 1, totalCost: item.price };
+    addItem(newItem);
+  };
 
   const handleClick = async () => {
     try {
@@ -48,11 +55,11 @@ function Cart() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          cancel_url: window.location.href,
-          currency: activeCurrency.code,
+          cancel_url: process.env.NEXT_PUBLIC_HOST,
+          currency: "usd",
           items,
-          locale: router.locale,
-          success_url: `${window.location.origin}/success`,
+          success_url: process.env.NEXT_PUBLIC_HOST,
+          email: "client@example.com",
         }),
       });
 
@@ -68,15 +75,13 @@ function Cart() {
       }
 
       const { session } = await res.json();
-
       await stripe.redirectToCheckout({
         sessionId: session.id,
       });
 
       setSubmissionSuccess();
     } catch (error) {
-      //setSubmissionError(error.info.message)
-      console.log(error);
+      setSubmissionError(error.message);
     }
   };
 
@@ -90,14 +95,14 @@ function Cart() {
       </h2>
       {items.map((item) => {
         return (
-          <div className="flex items-center mb-4" key={item.id}>
+          <div className="flex items-center mb-4" key={item.productId}>
             <div className=" w-3/5 h-[160px] flex flex-grow items-center">
               <div className="h-full w-[140px] mr-4 bg-gray-50 p-1 overflow-hidden relative">
                 <Image
                   fill
                   src={item.image}
-                  //width={item.image.width}
-                  //height={item.image.height}
+                  width={item.image.width}
+                  height={item.image.height}
                   alt="product in cart"
                 />
               </div>
@@ -110,7 +115,7 @@ function Cart() {
                 </Link>
                 <div className="sm:hidden text-left md:w-1/5">
                   <p className="text-lg sm:text-xl text-gray-800 font-Outfit font-black">
-                    ${item.itemTotal}
+                    ${item.totalCost}
                   </p>
                   {item.quantity > 1 && (
                     <p className="text-gray-400 text-sm">${item.price} each</p>
@@ -118,7 +123,7 @@ function Cart() {
                 </div>
                 <button
                   className="text-gray-600 font-bold font-Outfit uppercase hover:text-black text-[10px] flex items-center justify-center focus:outline-none border border-gray-600 w-14 h-6"
-                  onClick={() => removeItem(item.id)}
+                  onClick={() => clearItem(item.productId)}
                   disabled={submissionLoading}
                 >
                   Remove
@@ -146,7 +151,7 @@ function Cart() {
             </div>
             <div className="hidden sm:block text-right md:w-1/5">
               <p className="text-2xl text-gray-800 font-Outfit font-black">
-                ${item.itemTotal}
+                ${item.totalCost}
               </p>
               {item.quantity > 1 && (
                 <p className="text-gray-400 text-sm">${item.price} each</p>
@@ -159,10 +164,10 @@ function Cart() {
         <div className="flex flex-col items-end">
           <div className="flex flex-col items-end mb-3">
             <span className="text-3xl font-Outfit tracking-tighter font-bold">
-              Sub total
+              Sub total:
             </span>
             <span className="text-indigo-600 text-4xl font-Outfit font-black">
-              ${cartTotal}
+              ${totalCost}
             </span>
           </div>
           <Button onClick={handleClick} disabled={submissionLoading}>

@@ -38,6 +38,22 @@ export async function getCategories() {
   return categories;
 }
 
+export async function getTop6() {
+  const res = await fetch("https://fakestoreapi.com/products?limit=6");
+  // Tìm sản phẩm theo slug
+  const top6 = await res.json();
+
+  return top6;
+}
+
+export async function getProductId(id) {
+  const res = await fetch(`https://fakestoreapi.com/products/${id}`);
+  // Tìm sản phẩm theo slug
+  const product = await res.json();
+
+  return product;
+}
+
 export function removeSpaces(str) {
   return str.replace(/\s+/g, "");
 }

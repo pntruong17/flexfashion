@@ -1,13 +1,14 @@
 import * as React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { useCart } from "react-use-cart";
 import Link from "next/link";
 import { ChevronDownSmallIcon } from "@/icons";
 import ProductReviews from "@/components/product-reviews";
+import { useCartContext } from "@/context/cart-context";
+import { convertTitleToSlug } from "@/utils/callback";
 
 function ProductPageUI({ product, linkImg }) {
-  const { addItem } = useCart();
+  const { addItem } = useCartContext();
   const router = useRouter();
   const [variantQuantity, setVariantQuantity] = React.useState(1);
 
@@ -16,16 +17,15 @@ function ProductPageUI({ product, linkImg }) {
   const updateVariant = (event) => setActiveVariantId(event.target.value);
 
   const addToCart = () => {
-    addItem(
-      {
-        id: product.id,
-        name: product.title,
-        productId: product.id,
-        image: product.image,
-        price: product.price,
-      },
-      variantQuantity
-    );
+    addItem({
+      productId: product.id,
+      name: product.title,
+      slug: convertTitleToSlug(product.title),
+      image: product.image,
+      price: product.price,
+      quantity: variantQuantity,
+      totalCost: product.price * variantQuantity, // nhân thành tiền
+    });
   };
 
   return (
@@ -57,9 +57,14 @@ function ProductPageUI({ product, linkImg }) {
           {product.title}
         </h1>
         <div className="mb-6">
-          <p className="font-semibold font-Outfit text-2xl text-slategray">
-            ${product.price}
-          </p>
+          <div className="hidden sm:block text-right md:w-1/5">
+            <p className="text-2xl text-gray-800 font-Outfit font-black">
+              ${product.price * variantQuantity}
+            </p>
+            {variantQuantity > 1 && (
+              <p className="text-gray-400 text-sm">${product.price} each</p>
+            )}
+          </div>
         </div>
         <div className="mb-6">
           <p className="font-flexrow leading-loose text-lightgray">

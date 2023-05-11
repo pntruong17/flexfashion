@@ -36,8 +36,8 @@ export default async (req, res) => {
       payment_method_types: ["card"],
       line_items,
       mode: "payment",
-      success_url: `${success_url}/cancel-checkout`,
-      cancel_url: `${cancel_url}/success`,
+      success_url: `${success_url}/success`,
+      cancel_url: `${cancel_url}/cart`,
       metadata: {
         email,
       },

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useRouter } from "next/router";
-import { getAllProducts } from "@/utils/callback";
+import { getAllProducts, getCategories } from "@/utils/callback";
 
 function SuccessPage() {
   const router = useRouter();
@@ -24,15 +24,12 @@ function SuccessPage() {
 }
 
 export async function getStaticProps() {
-  const res = await fetch("https://fakestoreapi.com/products/categories");
-  const prod = await fetch("https://fakestoreapi.com/products?limit=6");
-  const allProducts = await getAllProducts();
-  const categories = await res.json();
-  const products = await prod.json();
+  const categories = await getCategories();
+  const allproducts = await getAllProducts();
   const pageProps = {
     categories: categories,
-    products: products,
-    allproducts: allProducts,
+    products: allproducts,
+    allproducts: allproducts,
   };
   return { props: { ...pageProps } };
 }

@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ["media.graphassets.com", "fakestoreapi.com"],
+    domains: ["fakestoreapi.com"],
   },
   experimental: {
     workerThreads: false,

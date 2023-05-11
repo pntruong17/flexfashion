@@ -1,7 +1,7 @@
 import React from "react";
 import { getAllProducts, getCategories } from "@/utils/callback";
-const NotFoundPage = () => {
-  return <h1>404 - Page Not Found</h1>;
+const ServerErrorPage = () => {
+  return <h1>500 - Server Error</h1>;
 };
 export async function getStaticProps() {
   const categories = await getCategories();
@@ -13,4 +13,4 @@ export async function getStaticProps() {
   };
   return { props: { ...pageProps } };
 }
-export default NotFoundPage;
+export default ServerErrorPage;
